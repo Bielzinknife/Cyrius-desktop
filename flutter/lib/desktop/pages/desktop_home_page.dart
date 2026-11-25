@@ -125,13 +125,28 @@ class _DesktopHomePageState extends State<DesktopHomePage>
         ).marginOnly(bottom: 6, right: 6)
       ]);
     }
-    final textColor = Theme.of(context).textTheme.titleLarge?.color;
+    final textColor = Colors.white;
     return ChangeNotifierProvider.value(
       value: gFFI.serverModel,
-      child: Container(
-        width: isIncomingOnly ? 280.0 : 200.0,
-        color: Theme.of(context).colorScheme.background,
-        child: Stack(
+      child: Theme(
+        data: Theme.of(context).copyWith(
+          brightness: Brightness.dark,
+          textTheme: ThemeData.dark().textTheme.apply(
+                bodyColor: Colors.white,
+                displayColor: Colors.white,
+              ),
+          iconTheme: const IconThemeData(color: Color(0xFFB6A1D8)),
+        ),
+        child: Container(
+          width: isIncomingOnly ? 280.0 : 200.0,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0xFF2C1E57), Color(0xFF0E1538)],
+            ),
+          ),
+          child: Stack(
           children: [
             Column(
               children: [
@@ -174,6 +189,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
               )
           ],
         ),
+      ),
       ),
     );
   }
@@ -395,6 +411,43 @@ class _DesktopHomePageState extends State<DesktopHomePage>
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 14.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                RichText(
+                  text: const TextSpan(
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 1.2,
+                      height: 1.0,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: 'C',
+                        style: TextStyle(color: Color(0xFFA48AD4)),
+                      ),
+                      TextSpan(
+                        text: 'YRIUS',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
+                const Text(
+                  'DESKTOP',
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 2.0,
+                    color: Color(0xFFB6A1D8),
+                  ),
+                ),
+              ],
+            ),
+          ),
           Column(
             children: [
               if (!isOutgoingOnly)
@@ -402,7 +455,10 @@ class _DesktopHomePageState extends State<DesktopHomePage>
                   alignment: Alignment.centerLeft,
                   child: Text(
                     translate("Your Desktop"),
-                    style: Theme.of(context).textTheme.titleLarge,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium
+                        ?.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
                   ),
                 ),
             ],
