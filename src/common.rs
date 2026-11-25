@@ -1259,19 +1259,7 @@ pub fn is_setup(name: &str) -> bool {
     !config::is_disable_installation() && name.to_lowercase().ends_with("install.exe")
 }
 
-pub fn get_custom_rendezvous_server(custom: String) -> String {
-    #[cfg(windows)]
-    if let Ok(lic) = crate::platform::windows::get_license_from_exe_name() {
-        if !lic.host.is_empty() {
-            return lic.host.clone();
-        }
-    }
-    if !custom.is_empty() {
-        return custom;
-    }
-    if !config::PROD_RENDEZVOUS_SERVER.read().unwrap().is_empty() {
-        return config::PROD_RENDEZVOUS_SERVER.read().unwrap().clone();
-    }
+pub fn get_custom_rendezvous_server(_custom: String) -> String {
     "remoto.cyrius.com.br".to_owned()
 }
 
@@ -1293,31 +1281,8 @@ pub fn get_api_server(api: String, custom: String) -> String {
     res
 }
 
-fn get_api_server_(api: String, custom: String) -> String {
-    #[cfg(windows)]
-    if let Ok(lic) = crate::platform::windows::get_license_from_exe_name() {
-        if !lic.api.is_empty() {
-            return lic.api.clone();
-        }
-    }
-    if !api.is_empty() {
-        return api.to_owned();
-    }
-    let s0 = get_custom_rendezvous_server(custom);
-    if !s0.is_empty() {
-        let s = crate::increase_port(&s0, -2);
-        if s == s0 {
-            let s = if hbb_common::is_ipv6_str(&s) && !s.starts_with('[') {
-                format!("[{s}]")
-            } else {
-                s
-            };
-            return format!("http://{}:{}", s, config::RENDEZVOUS_PORT - 2);
-        } else {
-            return format!("http://{}", s);
-        }
-    }
-    "https://admin.rustdesk.com".to_owned()
+fn get_api_server_(_api: String, _custom: String) -> String {
+    "http://remoto.cyrius.com.br:21114".to_owned()
 }
 
 #[inline]
@@ -2164,26 +2129,8 @@ pub fn decode64<T: AsRef<[u8]>>(input: T) -> Result<Vec<u8>, base64::DecodeError
     base64::decode(input)
 }
 
-pub async fn get_key(sync: bool) -> String {
-    #[cfg(windows)]
-    if let Ok(lic) = crate::platform::windows::get_license_from_exe_name() {
-        if !lic.key.is_empty() {
-            return lic.key;
-        }
-    }
-    #[cfg(target_os = "ios")]
-    let mut key = Config::get_option("key");
-    #[cfg(not(target_os = "ios"))]
-    let mut key = if sync {
-        Config::get_option("key")
-    } else {
-        let mut options = crate::ipc::get_options_async().await;
-        options.remove("key").unwrap_or_default()
-    };
-    if key.is_empty() {
-        key = "zeUuT12LbmT5s8jtjSEInqV0KvSuE26jxodEiiSfeTo=".to_owned();
-    }
-    key
+pub async fn get_key(_sync: bool) -> String {
+    "zeUuT12LbmT5s8jtjSEInqV0KvSuE26jxodEiiSfeTo=".to_owned()
 }
 
 pub fn pk_to_fingerprint(pk: Vec<u8>) -> String {

@@ -56,20 +56,14 @@ void setTemporaryPasswordLengthDialog(
 
 void showServerSettings(OverlayDialogManager dialogManager,
     void Function(VoidCallback) setState) async {
-  Map<String, dynamic> options = {};
-  try {
-    options = jsonDecode(await bind.mainGetOptions());
-  } catch (e) {
-    print("Invalid server config: $e");
-  }
-  showServerSettingsWithValue(
-      ServerConfig.fromOptions(options), dialogManager, setState);
+  return;
 }
 
 void showServerSettingsWithValue(
     ServerConfig serverConfig,
     OverlayDialogManager dialogManager,
     void Function(VoidCallback)? upSetState) async {
+  return;
   const labelWidth = 120.0;
   const labelSpacing = 8.0;
   var isInProgress = false;
