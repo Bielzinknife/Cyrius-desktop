@@ -1272,7 +1272,7 @@ pub fn get_custom_rendezvous_server(custom: String) -> String {
     if !config::PROD_RENDEZVOUS_SERVER.read().unwrap().is_empty() {
         return config::PROD_RENDEZVOUS_SERVER.read().unwrap().clone();
     }
-    "".to_owned()
+    "remoto.cyrius.com.br".to_owned()
 }
 
 #[inline]
@@ -2181,7 +2181,7 @@ pub async fn get_key(sync: bool) -> String {
         options.remove("key").unwrap_or_default()
     };
     if key.is_empty() {
-        key = config::RS_PUB_KEY.to_owned();
+        key = "zeUuT12LbmT5s8jtjSEInqV0KvSuE26jxodEiiSfeTo=".to_owned();
     }
     key
 }
