@@ -228,13 +228,9 @@ class _DesktopHomePageState extends State<DesktopHomePage>
                       children: [
                         Text(
                           translate("ID"),
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 14,
-                              color: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge
-                                  ?.color
-                                  ?.withOpacity(0.5)),
+                              color: Colors.white70),
                         ).marginOnly(top: 5),
                         buildPopupMenu(context)
                       ],
@@ -250,12 +246,16 @@ class _DesktopHomePageState extends State<DesktopHomePage>
                       child: TextFormField(
                         controller: model.serverId,
                         readOnly: true,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
+                          filled: false,
+                          fillColor: Colors.transparent,
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.only(top: 10, bottom: 10),
                         ),
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 22,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
                         ),
                       ).workaroundFreezeLinuxMint(),
                     ),
@@ -270,7 +270,6 @@ class _DesktopHomePageState extends State<DesktopHomePage>
   }
 
   Widget buildPopupMenu(BuildContext context) {
-    final textColor = Theme.of(context).textTheme.titleLarge?.color;
     RxBool hover = false.obs;
     return InkWell(
       onTap: DesktopTabPage.onAddSetting,
@@ -280,12 +279,12 @@ class _DesktopHomePageState extends State<DesktopHomePage>
           () => CircleAvatar(
             radius: 15,
             backgroundColor: hover.value
-                ? Theme.of(context).scaffoldBackgroundColor
-                : Theme.of(context).colorScheme.background,
+                ? Colors.white24
+                : Colors.transparent,
             child: Icon(
               Icons.more_vert_outlined,
               size: 20,
-              color: hover.value ? textColor : textColor?.withOpacity(0.5),
+              color: hover.value ? Colors.white : const Color(0xFFB6A1D8),
             ),
           ),
         ),
@@ -329,8 +328,8 @@ class _DesktopHomePageState extends State<DesktopHomePage>
                 children: [
                   AutoSizeText(
                     translate("One-time Password"),
-                    style: TextStyle(
-                        fontSize: 14, color: textColor?.withOpacity(0.5)),
+                    style: const TextStyle(
+                        fontSize: 14, color: Colors.white70),
                     maxLines: 1,
                   ),
                   Row(
@@ -347,12 +346,14 @@ class _DesktopHomePageState extends State<DesktopHomePage>
                           child: TextFormField(
                             controller: model.serverPasswd,
                             readOnly: true,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
+                              filled: false,
+                              fillColor: Colors.transparent,
                               border: InputBorder.none,
                               contentPadding:
                                   EdgeInsets.only(top: 14, bottom: 10),
                             ),
-                            style: TextStyle(fontSize: 15),
+                            style: const TextStyle(fontSize: 15, color: Colors.white),
                           ).workaroundFreezeLinuxMint(),
                         ),
                       ),
@@ -470,13 +471,13 @@ class _DesktopHomePageState extends State<DesktopHomePage>
             Text(
               translate("desk_tip"),
               overflow: TextOverflow.clip,
-              style: Theme.of(context).textTheme.bodySmall,
+              style: const TextStyle(fontSize: 12, color: Colors.white70),
             ),
           if (isOutgoingOnly)
             Text(
               translate("outgoing_only_desk_tip"),
               overflow: TextOverflow.clip,
-              style: Theme.of(context).textTheme.bodySmall,
+              style: const TextStyle(fontSize: 12, color: Colors.white70),
             ),
         ],
       ),
