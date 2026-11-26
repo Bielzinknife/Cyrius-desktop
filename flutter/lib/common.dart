@@ -2613,7 +2613,6 @@ connect(BuildContext context, String id,
   if (id == '') return;
   if (gFFI.userModel.userName.value.isEmpty) {
     showToast('Acesso restrito a técnicos autorizados. Faça login para conectar.');
-    loginDialog();
     return;
   }
   if (!isDesktop || desktopType == DesktopType.main) {
