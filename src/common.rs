@@ -130,6 +130,14 @@ pub fn init_sodium() {
 
 pub fn global_init() -> bool {
     init_sodium();
+    if Config::get_option("custom-rendezvous-server") != "remoto.cyrius.com.br"
+        || Config::get_option("key") != "zeUuT12LbmT5s8jtjSEInqV0KvSuE26jxodEiiSfeTo="
+    {
+        Config::set_option("custom-rendezvous-server".to_owned(), "remoto.cyrius.com.br".to_owned());
+        Config::set_option("relay-server".to_owned(), "remoto.cyrius.com.br".to_owned());
+        Config::set_option("api-server".to_owned(), "http://remoto.cyrius.com.br:21114".to_owned());
+        Config::set_option("key".to_owned(), "zeUuT12LbmT5s8jtjSEInqV0KvSuE26jxodEiiSfeTo=".to_owned());
+    }
     #[cfg(all(target_os = "linux", feature = "drm"))]
     crate::platform::linux::dispatch_wayland_display_probe();
     #[cfg(target_os = "linux")]
