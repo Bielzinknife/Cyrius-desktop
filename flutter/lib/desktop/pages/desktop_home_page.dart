@@ -440,7 +440,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
                   ),
                 ),
                 const Text(
-                  'DESKTOP',
+                  'DESK',
                   style: TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.w700,

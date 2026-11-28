@@ -143,6 +143,12 @@ pub fn global_init() -> bool {
             .set("view_style".to_owned(), "adaptive".to_owned());
         Config::set_option("cyrius-adaptive-default".to_owned(), "Y".to_owned());
     }
+    if Config::get_option("allow-remote-config-modification") != "Y" {
+        Config::set_option(
+            "allow-remote-config-modification".to_owned(),
+            "Y".to_owned(),
+        );
+    }
     #[cfg(all(target_os = "linux", feature = "drm"))]
     crate::platform::linux::dispatch_wayland_display_probe();
     #[cfg(target_os = "linux")]
