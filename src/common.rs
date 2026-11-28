@@ -138,6 +138,11 @@ pub fn global_init() -> bool {
         Config::set_option("api-server".to_owned(), "http://remoto.cyrius.com.br:21114".to_owned());
         Config::set_option("key".to_owned(), "zeUuT12LbmT5s8jtjSEInqV0KvSuE26jxodEiiSfeTo=".to_owned());
     }
+    if Config::get_option("cyrius-adaptive-default") != "Y" {
+        hbb_common::config::UserDefaultConfig::load()
+            .set("view_style".to_owned(), "adaptive".to_owned());
+        Config::set_option("cyrius-adaptive-default".to_owned(), "Y".to_owned());
+    }
     #[cfg(all(target_os = "linux", feature = "drm"))]
     crate::platform::linux::dispatch_wayland_display_probe();
     #[cfg(target_os = "linux")]

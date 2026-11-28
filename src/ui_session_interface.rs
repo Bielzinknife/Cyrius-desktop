@@ -252,7 +252,12 @@ impl<T: InvokeUiSession> Session<T> {
     }
 
     pub fn get_view_style(&self) -> String {
-        self.lc.read().unwrap().view_style.clone()
+        let v = self.lc.read().unwrap().view_style.clone();
+        if v.is_empty() {
+            "adaptive".to_owned()
+        } else {
+            v
+        }
     }
 
     pub fn get_scroll_style(&self) -> String {
