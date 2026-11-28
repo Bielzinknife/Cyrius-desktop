@@ -138,7 +138,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
           iconTheme: const IconThemeData(color: Color(0xFFB6A1D8)),
         ),
         child: Container(
-          width: isIncomingOnly ? 280.0 : 200.0,
+          width: isIncomingOnly ? 280.0 : 215.0,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
@@ -204,7 +204,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
   buildIDBoard(BuildContext context) {
     final model = gFFI.serverModel;
     return Container(
-      margin: const EdgeInsets.only(left: 20, right: 11),
+      margin: const EdgeInsets.only(left: 16, right: 8),
       height: 57,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -249,13 +249,15 @@ class _DesktopHomePageState extends State<DesktopHomePage>
                         decoration: const InputDecoration(
                           filled: false,
                           fillColor: Colors.transparent,
+                          isDense: true,
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.only(top: 10, bottom: 10),
                         ),
                         style: const TextStyle(
-                          fontSize: 22,
+                          fontSize: 18.5,
                           color: Colors.white,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: -0.2,
                         ),
                       ).workaroundFreezeLinuxMint(),
                     ),

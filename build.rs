@@ -29,6 +29,7 @@ fn build_mac() {
 
 #[cfg(all(windows, feature = "inline"))]
 fn build_manifest() {
+    println!("cargo:rerun-if-changed=res/icon.ico");
     use std::io::Write;
     if std::env::var("PROFILE").unwrap() == "release" {
         let mut res = winres::WindowsResource::new();
