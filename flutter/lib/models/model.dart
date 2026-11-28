@@ -3998,8 +3998,19 @@ class RecordingModel with ChangeNotifier {
   }
 
   updateStatus(bool status) {
+    final prev = _start;
     _start = status;
     notifyListeners();
+    if (prev != status) {
+      if (status) {
+        showToast('Gravação de vídeo iniciada...');
+      } else {
+        final dir = bind.mainGetLocalOption(key: kOptionVideoSaveDirectory);
+        showToast(dir.isNotEmpty
+            ? 'Gravação salva em: $dir'
+            : 'Gravação salva automaticamente na pasta de Vídeos!');
+      }
+    }
   }
 }
 

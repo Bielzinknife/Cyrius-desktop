@@ -321,11 +321,22 @@ showCmWindow({bool isStartup = false}) async {
   } else if (_isCmReadyToShow) {
     if (await windowManager.getOpacity() != 1) {
       await windowManager.setOpacity(1);
-      await windowManager.focus();
-      await windowManager.minimize(); //needed
+      await windowManager.show();
+      if (isWindows) {
+        await windowManager.focus();
+        await windowManager.minimize(); //needed
+      } else {
+        await windowManager.restore();
+        await windowManager.focus();
+      }
       await windowManager.setSizeAlignment(
           kConnectionManagerWindowSizeClosedChat, Alignment.topRight);
       windowOnTop(null);
+    } else if (isLinux) {
+      await windowManager.show();
+      await windowManager.restore();
+      await windowManager.setAlwaysOnTop(true);
+      await windowManager.focus();
     }
   }
 }

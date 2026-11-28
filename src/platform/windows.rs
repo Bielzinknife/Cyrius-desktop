@@ -1714,13 +1714,14 @@ pub fn install_me(options: &str, path: String, silent: bool, debug: bool) -> Res
     // The elevated runner expands this to `%~f0.dir`, beside its protected copy.
     // Do not stage privileged shortcut artifacts in the user-writable `%TEMP%`.
     let tmp_path = "%RUSTDESK_OUTPUT_DIR%".to_owned();
+    let display_name = "Cyrius Desk";
     let (mk_shortcut_commands, mk_shortcut_file) = staged_shortcut_commands(
         shortcut_bytes(&exe, None, shortcut_icon_location.as_deref())?,
-        &format!("{app_name}.lnk"),
+        &format!("{display_name}.lnk"),
     )?;
     let (uninstall_shortcut_commands, uninstall_shortcut_file) = staged_shortcut_commands(
         shortcut_bytes(&exe, Some("--uninstall"), Some("msiexec.exe"))?,
-        &format!("Uninstall {app_name}.lnk"),
+        &format!("Uninstall {display_name}.lnk"),
     )?;
     let (tray_shortcut_commands, tray_shortcut_file) =
         staged_tray_shortcut_commands(&app_name, &exe, shortcut_icon_location.as_deref())?;
@@ -1732,7 +1733,7 @@ pub fn install_me(options: &str, path: String, silent: bool, debug: bool) -> Res
         shortcuts = format!(
             "copy /Y \"{}\\{}.lnk\" \"%PUBLIC%\\Desktop\\\"",
             tmp_path,
-            crate::get_app_name()
+            display_name
         );
         reg_value_desktop_shortcuts = "1".to_owned();
     }
@@ -1740,8 +1741,8 @@ pub fn install_me(options: &str, path: String, silent: bool, debug: bool) -> Res
         shortcuts = format!(
             "{shortcuts}
 md \"{start_menu}\"
-copy /Y \"{tmp_path}\\{app_name}.lnk\" \"{start_menu}\\\"
-copy /Y \"{tmp_path}\\Uninstall {app_name}.lnk\" \"{start_menu}\\\"
+copy /Y \"{tmp_path}\\{display_name}.lnk\" \"{start_menu}\\\"
+copy /Y \"{tmp_path}\\Uninstall {display_name}.lnk\" \"{start_menu}\\\"
      "
         );
         reg_value_start_menu_shortcuts = "1".to_owned();
@@ -1764,8 +1765,8 @@ copy /Y \"{tmp_path}\\Uninstall {app_name}.lnk\" \"{start_menu}\\\"
     // Note: without if exist, the bat may exit in advance on some Windows7 https://github.com/rustdesk/rustdesk/issues/895
     let dels = format!(
         "
-if exist \"{tmp_path}\\{app_name}.lnk\" del /f /q \"{tmp_path}\\{app_name}.lnk\"
-if exist \"{tmp_path}\\Uninstall {app_name}.lnk\" del /f /q \"{tmp_path}\\Uninstall {app_name}.lnk\"
+if exist \"{tmp_path}\\{display_name}.lnk\" del /f /q \"{tmp_path}\\{display_name}.lnk\"
+if exist \"{tmp_path}\\Uninstall {display_name}.lnk\" del /f /q \"{tmp_path}\\Uninstall {display_name}.lnk\"
 if exist \"{tmp_path}\\{app_name} Tray.lnk\" del /f /q \"{tmp_path}\\{app_name} Tray.lnk\"
         "
     );
@@ -1819,12 +1820,12 @@ md \"{path}\"
 {copy_exe}
 reg add {subkey} /f
 reg add {subkey} /f /v DisplayIcon /t REG_SZ /d \"{display_icon}\"
-reg add {subkey} /f /v DisplayName /t REG_SZ /d \"{app_name}\"
+reg add {subkey} /f /v DisplayName /t REG_SZ /d \"{display_name}\"
 reg add {subkey} /f /v DisplayVersion /t REG_SZ /d \"{version}\"
 reg add {subkey} /f /v Version /t REG_SZ /d \"{version}\"
 reg add {subkey} /f /v BuildDate /t REG_SZ /d \"{build_date}\"
 reg add {subkey} /f /v InstallLocation /t REG_SZ /d \"{path}\"
-reg add {subkey} /f /v Publisher /t REG_SZ /d \"{app_name}\"
+reg add {subkey} /f /v Publisher /t REG_SZ /d \"Cyrius\"
 reg add {subkey} /f /v VersionMajor /t REG_DWORD /d {version_major}
 reg add {subkey} /f /v VersionMinor /t REG_DWORD /d {version_minor}
 reg add {subkey} /f /v VersionBuild /t REG_DWORD /d {version_build}
@@ -1835,7 +1836,7 @@ reg add {subkey} /f /v WindowsInstaller /t REG_DWORD /d 0
 {uninstall_shortcut_commands}
 {tray_shortcuts}
 {shortcuts}
-copy /Y \"{tmp_path}\\Uninstall {app_name}.lnk\" \"{path}\\\"
+copy /Y \"{tmp_path}\\Uninstall {display_name}.lnk\" \"{path}\\\"
 {dels}
 {import_config}
 {after_install}

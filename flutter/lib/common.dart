@@ -2613,9 +2613,11 @@ connect(BuildContext context, String id,
     bool? isSharedPassword,
     String loginMethod = ''}) async {
   if (id == '') return;
-  if (gFFI.userModel.userName.value.isEmpty) {
-    showToast('Acesso restrito a técnicos autorizados. Faça login para conectar.');
-    return;
+  if (!isDesktop || desktopType == DesktopType.main) {
+    if (gFFI.userModel.userName.value.isEmpty) {
+      showToast('Acesso restrito a técnicos autorizados. Faça login para conectar.');
+      return;
+    }
   }
   if (!isDesktop || desktopType == DesktopType.main) {
     try {
